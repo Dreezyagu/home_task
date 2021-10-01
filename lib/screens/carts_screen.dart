@@ -15,6 +15,7 @@ class CartsScreen extends StatefulWidget {
 
 class _CartsScreenState extends State<CartsScreen> {
   List<int> quantityList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,7 +172,7 @@ class _CartsScreenState extends State<CartsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: context.width(.175),
+                      width: context.width(.2),
                       height: context.height(.04),
                       padding: EdgeInsets.only(
                         left: context.width(.04),
@@ -262,7 +263,9 @@ class Header extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: const LinearGradient(
             colors: [Color(0xff7A08FA), Color(0xffAD3BFC)]),
-        borderRadius: BorderRadius.all(Radius.circular(context.width(.075))),
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(context.width(.075)),
+            bottomRight: Radius.circular(context.width(.075))),
       ),
       child: Column(
         children: [

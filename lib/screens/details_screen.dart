@@ -22,59 +22,75 @@ class _DetailsState extends State<Details> {
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
-    final products = BlocProvider.of<CartCubit>(context).cartItems;
     return Scaffold(
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.width(.005)),
-            child: Stack(
-              children: [
-                Container(
-                  height: context.height(),
-                  width: double.infinity,
-                  color: whiteColor,
-                ),
-                Column(
-                  children: [
-                    const Header(),
-                    Container(
-                      height: context.height(.85),
-                      color: whiteColor,
-                      child: ListView(
-                        children: [
-                          Intro(product: product),
-                          packsNo(product),
-                          ProductDetails(product: product),
-                          const SimilarProducts(),
-                          Visibility(
-                            visible: !products.any((element) =>
-                                element.productId == product.productId),
-                            child: InkWell(
-                                onTap: () {
-                                  product.quantity = packs;
-                                  BlocProvider.of<CartCubit>(context)
-                                      .addProductToCart(product);
-
-                                  dialog(context, product).then((value) {
-                                    setState(() {});
-                                  });
-                                },
-                                child: const Button()),
-                          )
-                        ],
-                      ),
+          Stack(
+            children: [
+              Container(
+                height: context.height(),
+                width: double.infinity,
+                color: whiteColor,
+              ),
+              Column(
+                children: [
+                  const Header(),
+                  Container(
+                    height: context.height(.85),
+                    color: whiteColor,
+                    child: ListView(
+                      children: [
+                        Intro(product: product),
+                        packsNo(product),
+                        ProductDetails(product: product),
+                        const SimilarProducts(),
+                        Hspace(context.height(.1))
+                      ],
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
+      ),
+      floatingActionButton: BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) {
+          if (state is CartItem) {
+            final products = state.products;
+            return Visibility(
+              visible: !products
+                  .any((element) => element.productId == product.productId),
+              child: InkWell(
+                  onTap: () {
+                    product.quantity = packs;
+                    BlocProvider.of<CartCubit>(context)
+                        .addProductToCart(product);
+
+                    dialog(context, product).then((value) {
+                      setState(() {});
+                    });
+                  },
+                  child: addToCartButton()),
+            );
+          } else {
+            return InkWell(
+                onTap: () {
+                  product.quantity = packs;
+                  BlocProvider.of<CartCubit>(context).addProductToCart(product);
+
+                  dialog(context, product).then((value) {
+                    setState(() {});
+                  });
+                },
+                child: addToCartButton());
+          }
+        },
       ),
     );
   }
 
+// widget functions that pops up on a successful addition to cart
   Future<dynamic> dialog(BuildContext context, ProductModel product) {
     return showDialog(
       context: context,
@@ -100,11 +116,10 @@ class _DetailsState extends State<Details> {
                             ));
                       },
                       child: Container(
-                          // height: context.height(.14),
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(
                               horizontal: context.width(.04),
-                              vertical: context.height(.0175)),
+                              vertical: context.height(.0185)),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
                                 colors: [Color(0xff7A08FA), Color(0xffAD3BFC)]),
@@ -143,6 +158,38 @@ class _DetailsState extends State<Details> {
                   ],
                 ),
               )),
+    );
+  }
+
+// widget function button to add product item to cart.
+  Widget addToCartButton() {
+    return Padding(
+      padding: EdgeInsets.only(left: context.width(.08)),
+      child: Container(
+          // height: context.height(.14),
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+              horizontal: context.width(.04), vertical: context.height(.02)),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+                colors: [Color(0xff7A08FA), Color(0xffAD3BFC)]),
+            borderRadius:
+                BorderRadius.all(Radius.circular(context.width(.035))),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.shopping_cart_outlined,
+                color: whiteColor,
+              ),
+              Text("    Add to Cart",
+                  style: TextStyle(
+                      color: whiteColor,
+                      fontWeight: FontWeight.w700,
+                      fontSize: context.width(.04))),
+            ],
+          )),
     );
   }
 
@@ -230,7 +277,7 @@ class _DetailsState extends State<Details> {
                               style: TextStyle(
                                   color: darkGrey,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: context.width(.05)),
+                                  fontSize: context.width(.045)),
                             )),
                         Text(
                           "$packs",
@@ -250,7 +297,7 @@ class _DetailsState extends State<Details> {
                               style: TextStyle(
                                   color: darkGrey,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: context.width(.05)),
+                                  fontSize: context.width(.045)),
                             )),
                       ],
                     ),
@@ -305,44 +352,6 @@ class _DetailsState extends State<Details> {
           )
         ],
       ),
-    );
-  }
-}
-
-class Button extends StatelessWidget {
-  const Button({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: context.width(.06)),
-      child: Container(
-          // height: context.height(.14),
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(
-              horizontal: context.width(.04), vertical: context.height(.02)),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-                colors: [Color(0xff7A08FA), Color(0xffAD3BFC)]),
-            borderRadius:
-                BorderRadius.all(Radius.circular(context.width(.035))),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.shopping_cart_outlined,
-                color: whiteColor,
-              ),
-              Text("    Add to Cart",
-                  style: TextStyle(
-                      color: whiteColor,
-                      fontWeight: FontWeight.w700,
-                      fontSize: context.width(.04))),
-            ],
-          )),
     );
   }
 }
@@ -649,7 +658,11 @@ class Header extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: const LinearGradient(
             colors: [Color(0xff7A08FA), Color(0xffAD3BFC)]),
-        borderRadius: BorderRadius.all(Radius.circular(context.width(.075))),
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(
+              context.width(.075),
+            ),
+            bottomRight: Radius.circular(context.width(.075))),
       ),
       child: Column(
         children: [

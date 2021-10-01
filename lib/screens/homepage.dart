@@ -180,100 +180,96 @@ class _HomepageState extends State<Homepage> {
                         },
                       ),
                       Hspace(context.height(.1)),
-                      checkoutButton(context, count)
                     ],
                   ),
                 ),
               ),
             )
           ],
-        ));
+        ),
+        floatingActionButton: checkoutButton(context, count));
   }
 
 // the checkout button at the bottom of the listview.
-  Align checkoutButton(BuildContext context, int count) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: InkWell(
-          onTap: () async {
-            search.clear();
-            final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CartsScreen(),
-                ));
-            if (result == true) {
-              setState(() {});
-            }
-          },
-          child: ClipRRect(
-            borderRadius:
-                BorderRadius.all(Radius.circular(context.width(.075))),
-            child: Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                Container(
-                  height: context.height(.07),
-                  width: context.width(.52),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: context.width(.06),
-                      vertical: context.height(.025)),
-                  decoration: BoxDecoration(
-                    color: whiteColor,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0xffFE806F),
-                        spreadRadius: 1,
-                        offset: Offset(0, 5), // changes position of shadow
-                      ),
-                    ],
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(context.width(.075))),
-                  ),
-                ),
-                Container(
-                  width: context.width(.5),
-                  height: context.height(.06),
-                  padding: EdgeInsets.symmetric(
+  Widget checkoutButton(BuildContext context, int count) {
+    return InkWell(
+        onTap: () async {
+          search.clear();
+          final result = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CartsScreen(),
+              ));
+          if (result == true) {
+            setState(() {});
+          }
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(context.width(.075))),
+          child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              Container(
+                height: context.height(.063),
+                width: context.width(.47),
+                padding: EdgeInsets.symmetric(
                     horizontal: context.width(.06),
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                        colors: [Color(0xffFE806F), Color(0xffE5366A)]),
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(context.width(.075))),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text("Checkout  ",
-                          style: TextStyle(
-                              color: whiteColor,
-                              fontWeight: FontWeight.w600,
-                              fontSize: context.width(.04))),
-                      const Icon(
-                        Icons.shopping_cart_outlined,
-                        color: whiteColor,
-                      ),
-                      Container(
-                          height: context.width(.05),
-                          width: context.width(.05),
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle, color: Color(0xffF1CA4B)),
-                          child: Center(
-                            child: Text("$count",
-                                style: TextStyle(
-                                    color: blackColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: context.width(.03))),
-                          ))
-                    ],
-                  ),
+                    vertical: context.height(.025)),
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0xffFE806F),
+                      spreadRadius: 1,
+                      offset: Offset(0, 5), // changes position of shadow
+                    ),
+                  ],
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(context.width(.075))),
                 ),
-              ],
-            ),
-          )),
-    );
+              ),
+              Container(
+                width: context.width(.45),
+                height: context.height(.06),
+                padding: EdgeInsets.symmetric(
+                  horizontal: context.width(.04),
+                ),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                      colors: [Color(0xffFE806F), Color(0xffE5366A)]),
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(context.width(.075))),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text("Checkout  ",
+                        style: TextStyle(
+                            color: whiteColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: context.width(.04))),
+                    const Icon(
+                      Icons.shopping_cart_outlined,
+                      color: whiteColor,
+                    ),
+                    Container(
+                        height: context.width(.05),
+                        width: context.width(.05),
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Color(0xffF1CA4B)),
+                        child: Center(
+                          child: Text("$count",
+                              style: TextStyle(
+                                  color: blackColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: context.width(.03))),
+                        ))
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }
 
@@ -425,8 +421,9 @@ class Header extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                     colors: [Color(0xff7A08FA), Color(0xffAD3BFC)]),
-                borderRadius:
-                    BorderRadius.all(Radius.circular(context.width(.075))),
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(context.width(.075)),
+                    bottomLeft: Radius.circular(context.width(.075))),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,

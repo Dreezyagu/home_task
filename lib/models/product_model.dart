@@ -1,6 +1,9 @@
 import 'dart:convert';
 
-class ProductModel {
+import 'package:equatable/equatable.dart';
+
+// ignore: must_be_immutable
+class ProductModel extends Equatable {
   final String productId;
   final String name;
   final String seller;
@@ -46,4 +49,7 @@ class ProductModel {
 
   factory ProductModel.fromJson(String source) =>
       ProductModel.fromMap(json.decode(source));
+
+  @override
+  List<Object?> get props => throw UnimplementedError();
 }

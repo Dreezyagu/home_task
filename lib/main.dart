@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'Home Task',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.purple,
           scaffoldBackgroundColor: const Color(0xffE5E5E5),
           fontFamily: "ProximaNova"),
       home: const Homepage(),
