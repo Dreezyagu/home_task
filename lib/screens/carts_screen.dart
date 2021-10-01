@@ -41,67 +41,84 @@ class _CartsScreenState extends State<CartsScreen> {
                           if (state is CartItem) {
                             final cartItems = state.products;
 
-                            return Column(
-                              children: [
-                                Expanded(
-                                  child: ListView.builder(
-                                    itemCount: cartItems.length,
-                                    itemBuilder: (context, index) {
-                                      for (var i = 0;
-                                          i < cartItems.length;
-                                          i++) {
-                                        quantityList.add(cartItems[i].quantity);
-                                      }
-
-                                      return cartItemCard(
-                                          context, cartItems, index);
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: context.width(.04)),
-                                  child: Row(
+                            return cartItems.isEmpty
+                                ? Center(
+                                    child: Text(
+                                      "No item in the cart yet.",
+                                      style: TextStyle(
+                                          color: darkGrey,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: context.width(.045)),
+                                    ),
+                                  )
+                                : Column(
                                     children: [
                                       Expanded(
-                                        child: Text(
-                                            "Total: ₦${state.total.toStringAsFixed(2)}"
-                                                .commalise,
-                                            style: TextStyle(
-                                                color: darkGrey,
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: context.width(.045))),
+                                        child: ListView.builder(
+                                          itemCount: cartItems.length,
+                                          itemBuilder: (context, index) {
+                                            for (var i = 0;
+                                                i < cartItems.length;
+                                                i++) {
+                                              quantityList
+                                                  .add(cartItems[i].quantity);
+                                            }
+
+                                            return cartItemCard(
+                                                context, cartItems, index);
+                                          },
+                                        ),
                                       ),
-                                      Container(
-                                          // height: context.height(.14),
-                                          width: context.width(.5),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: context.width(.04),
-                                              vertical: context.height(.02)),
-                                          decoration: BoxDecoration(
-                                            gradient: const LinearGradient(
-                                                colors: [
-                                                  Color(0xff7A08FA),
-                                                  Color(0xffAD3BFC)
-                                                ]),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(
-                                                    context.width(.035))),
-                                          ),
-                                          child: Center(
-                                            child: Text("CHECKOUT",
-                                                style: TextStyle(
-                                                    color: whiteColor,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize:
-                                                        context.width(.04))),
-                                          )),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: context.width(.04)),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                  "Total: ₦${state.total.toStringAsFixed(2)}"
+                                                      .commalise,
+                                                  style: TextStyle(
+                                                      color: darkGrey,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      fontSize:
+                                                          context.width(.045))),
+                                            ),
+                                            Container(
+                                                // height: context.height(.14),
+                                                width: context.width(.5),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        context.width(.04),
+                                                    vertical:
+                                                        context.height(.02)),
+                                                decoration: BoxDecoration(
+                                                  gradient:
+                                                      const LinearGradient(
+                                                          colors: [
+                                                        Color(0xff7A08FA),
+                                                        Color(0xffAD3BFC)
+                                                      ]),
+                                                  borderRadius: BorderRadius
+                                                      .all(Radius.circular(
+                                                          context.width(.035))),
+                                                ),
+                                                child: Center(
+                                                  child: Text("CHECKOUT",
+                                                      style: TextStyle(
+                                                          color: whiteColor,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: context
+                                                              .width(.04))),
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                      Hspace(context.height(.03))
                                     ],
-                                  ),
-                                ),
-                                Hspace(context.height(.03))
-                              ],
-                            );
+                                  );
                           } else {
                             return Container();
                           }
@@ -117,7 +134,6 @@ class _CartsScreenState extends State<CartsScreen> {
       ),
     );
   }
-
   Padding cartItemCard(
       BuildContext context, List<ProductModel> cartItems, int index) {
     return Padding(
