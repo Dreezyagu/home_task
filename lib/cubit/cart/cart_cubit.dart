@@ -13,7 +13,7 @@ class CartCubit extends Cubit<CartState> {
   void addProductToCart(ProductModel product) {
     emit(CartLoading());
     cartItems.add(product);
-    // double total = 0;
+    // the fold() method iterates throught the CartItem list and adds the multiple of the item price and the item quantity.
     final total = cartItems.fold(
         0,
         (previousValue, element) =>
@@ -26,6 +26,7 @@ class CartCubit extends Cubit<CartState> {
   void removeProductFromCart(ProductModel product) {
     emit(CartLoading());
     cartItems.remove(product);
+
     final total = cartItems.fold(
         0,
         (previousValue, element) =>
@@ -39,13 +40,14 @@ class CartCubit extends Cubit<CartState> {
       emit(CartLoading());
       final int index =
           cartItems.indexWhere((element) => element.productId == productID);
+      // changing the  quantity of items in the cart
       cartItems[index].quantity = packs;
-      double total = 0;
-
-      for (var i = 0; i < cartItems.length; i++) {
-        total = total + cartItems[i].price * cartItems[i].quantity;
-      }
-      emit(CartItem(cartItems, total));
+      final total = cartItems.fold(
+          0,
+          (previousValue, element) =>
+              double.parse(previousValue!.toString()) +
+              (element.price * element.quantity));
+      emit(CartItem(cartItems, total.toDouble()));
     } catch (e) {
       emit(CartError());
     }
