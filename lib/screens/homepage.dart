@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_task/cubit/cart/cart_cubit.dart';
 import 'package:home_task/cubit/search/search_cubit.dart';
-import 'package:home_task/models/product_model.dart';
 import 'package:home_task/screens/carts_screen.dart';
 import 'package:home_task/screens/details_screen.dart';
 import 'package:home_task/utils/constants.dart';
 import 'package:home_task/utils/extensions.dart';
+import 'package:home_task/widgets/categories_card.dart';
 import 'package:home_task/widgets/spaces.dart';
+import 'package:home_task/widgets/suggested_card.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -273,125 +274,6 @@ class _HomepageState extends State<Homepage> {
   }
 }
 
-// the categories individual card widget
-class CategoriesCard extends StatelessWidget {
-  final int index;
-
-  const CategoriesCard({Key? key, required this.index}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final List<String> categories = ["Headache", "Supplements", "Infants"];
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: context.width(.02)),
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(
-              context.width(.025),
-            ),
-            child: Image.asset(
-              "assets/images/${categories[index % 3]}.jpeg".toLowerCase(),
-              fit: BoxFit.fill,
-              height: context.height(.12),
-            ),
-          ),
-          Container(
-            height: context.height(.12),
-            width: context.width(.4),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                context.width(.025),
-              ),
-              color: blackColor.withOpacity(.5),
-            ),
-          ),
-          Text(categories[index % 3],
-              style: TextStyle(
-                  color: const Color(0xffFFFFFF),
-                  fontSize: context.width(.045),
-                  fontWeight: FontWeight.w600))
-        ],
-      ),
-    );
-  }
-}
-
-// the suggestions individual card widget
-class SuggestedCard extends StatelessWidget {
-  const SuggestedCard({
-    Key? key,
-    required this.product,
-  }) : super(key: key);
-
-  final ProductModel product;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: 0.5,
-      child: Container(
-        height: context.height(.15),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(context.width(.025)),
-        ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: context.height(.165),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(context.width(.025)),
-                  topRight: Radius.circular(context.width(.025)),
-                ),
-                child: Image.asset(
-                  "assets/images/${product.image}.jpeg",
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: context.height(.015),
-                    horizontal: context.width(.04)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(product.name,
-                        style: TextStyle(
-                            color: darkGrey,
-                            fontSize: context.width(.04),
-                            fontWeight: FontWeight.w600)),
-                    Hspace(context.height(.005)),
-                    Row(
-                      children: [
-                        Text("Tablet • ${product.weight.round()}mg",
-                            style: TextStyle(
-                                color: lightGrey,
-                                fontSize: context.width(.035),
-                                fontWeight: FontWeight.w600)),
-                      ],
-                    ),
-                    Hspace(context.height(.01)),
-                    Text("₦${product.price.toStringAsFixed(2)}",
-                        style: TextStyle(
-                            color: darkGrey,
-                            fontSize: context.width(.04),
-                            fontWeight: FontWeight.w800)),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 // header widget: including the search textfield
 class Header extends StatelessWidget {
